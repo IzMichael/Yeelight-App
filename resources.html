@@ -1,0 +1,15 @@
+<div class="flex flex-row text-xl bg-red-500 text-white font-bold p-5">
+    <p>Current Bulb:&nbsp;</p>
+    <p id="selectedBulb"></p>
+</div>
+<button onclick="listLights()">List</button>
+
+<div class="flex flex-col">
+    <btn class="toggle p-1 w-12 h-7 bg-gray-200 rounded-full" id="onoff-button">
+        <div class="toggle-slider w-5 h-5 bg-gray-900 rounded-full p-1 transform transition duration-500 ease-in-out" id="onoff-inner"></div>
+    </btn>
+    <sl-range min="0" max="100" step="1" id="brightness" class="transition duration-500 ease-in-out"></sl-range>
+    <button onclick="light.setBright(100);light.setCT(6500)">Reset To White</button>
+    <sl-color-picker id="sl-color-picker" inline="true" no-format-toggle="true" format="rgb"></sl-color-picker>
+    <button onclick="colour()">Push</button>
+</div>
