@@ -52,7 +52,8 @@ function setFrameSrc() {
     fetch('https://api.github.com/repos/IzMichael/Yeelight-App/releases/latest')
         .then(response => response.json())
         .then(data => {
-            document.getElementById('frame').setAttribute('src', "https://github.com/IzMichael/Yeelight-App/archive/" + data.tag_name + ".zip")
+            const link = 'https://github.com/IzMichael/Yeelight-App/releases/download/' + data.tag_name + '/Yeelight_App-' + data.tag_name + '.zip'
+            document.getElementById('frame').setAttribute('src', link)
         });
 }
 
