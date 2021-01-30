@@ -1,3 +1,8 @@
-# Electron-Template
+# Yeelight App
 
-Run `npm i` to install the dependencies
+Installation Instructions:
+
+1. Download the `.zip` file for the latest release
+2. Extract the `.zip` file to a new folder
+3. Run the `Yeelight App.exe` application
+4. Done! You can now use the app, and pin it to the taskbar or start menu for easy access

@@ -1,6 +1,60 @@
 var selection;
 var light;
 var lights = [];
+const packagejson = require('./package.json')
+
+const version = 'v' + packagejson.version;
+
+async function versioning() {
+    const text = document.getElementById('version')
+    fetch('https://api.github.com/repos/IzMichael/Yeelight-App/releases/latest')
+        .then(response => response.json())
+        .then(data => {
+            if (version === data.tag_name) {
+                text.innerHTML = 'You are on the latest version,<br>Version ' + version
+            } else {
+                text.innerHTML = '<p class="text-center mb-2">The latest version is ' + data.tag_name + '<br>You are on version ' + version + '</p><p class="text-center">Please download the<br>latest version by <a class="font-bold select none cursor-pointer" onclick="toggleUpdatePage()">clicking here</a></p>';
+            }
+        });
+}
+
+function toggleUpdatePage() {
+    const main = document.getElementById('wrapper');
+    const update = document.getElementById('downloadWrapper');
+
+    if (main.classList.contains('hidden')) {
+        main.classList.remove('hidden');
+        update.classList.add('hidden');
+        document.getElementById('frame').setAttribute('src', '')
+    } else {
+        main.classList.add('hidden');
+        update.classList.remove('hidden');
+        updateDLPage();
+    }
+}
+
+function updateDLPage() {
+    var md = require('markdown-it')({
+        html: true,
+        linkify: true,
+        typographer: true
+    });
+    fetch('https://api.github.com/repos/IzMichael/Yeelight-App/releases/latest')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            var result = md.render(data.body);
+            document.getElementById('changelog').innerHTML = result;
+        });
+}
+
+function setFrameSrc() {
+    fetch('https://api.github.com/repos/IzMichael/Yeelight-App/releases/latest')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('frame').setAttribute('src', "https://github.com/IzMichael/Yeelight-App/archive/" + data.tag_name + ".zip")
+        });
+}
 
 const Lookup = require("node-yeelight-wifi").Lookup;
 let look = new Lookup();
@@ -11,11 +65,16 @@ look.on("detected", (light) => {
 });
 
 function listLights() {
+    updatevars()
     const list = document.getElementById('lightsList')
-    list.innerHTML = '<btn class="flex flex-row items-center justify-center h-10 mb-1 text-white bg-gray-600 select-none cursor-pointer" onclick="listLights()">Search for Lights</btn>'
+    list.innerHTML = '';
     var index;
     for (index = 0; index < lights.length; ++index) {
-        list.innerHTML = list.innerHTML += '<div class="bulbItem"><div class="flex flex-row"><p>Bulb ID: ' + index + '<p><p class="w-32 text-right">' + lights[index].host + '</p></div><button onclick="select(' + index + ')" class="selectBtn" style="outline: none;">Select</button></div>'
+        var id = lights[index].id.replace('.', 'X').replace('.', 'X').replace('.', 'X').replace('.', 'X').toString();
+        if (!json.nicknames[id]) {
+            json.nicknames[id] = '';
+        }
+        list.innerHTML = list.innerHTML += '<div class="bulbItem fade-in"><div class="flex flex-row justify-between"><p class="mr-3">Bulb ID: ' + index + '<p><div class="flex flex-col w-2/4 flex-1 items-end"><input type="text" onkeyup="getInput(' + "'" + id + "')" + '" id="' + id + '" value="' + json.nicknames[id] + '" class="text-md text-right outline-none bg-gray-300 border-b border-gray-600 w-full"><p class="text-right">' + lights[index].host + '</p></div></div><button onclick="select(' + index + ')" class="selectBtn" style="outline: none;">Select</button></div>'
     }
 }
 
@@ -96,7 +155,7 @@ async function alert(textInput) {
 }
 
 function sleep(s) {
-    return new Promise(resolve => setTimeout(resolve, (s*1000)));
+    return new Promise(resolve => setTimeout(resolve, (s * 1000)));
 }
 
 function run(func) {

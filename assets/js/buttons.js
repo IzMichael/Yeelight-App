@@ -7,6 +7,8 @@ document.onreadystatechange = (event) => {
         handleWindowControls();
         handleLightControls();
         handlePresets();
+        versioning();
+        document.getElementById('wrapper').classList.remove('hidden')
     }
 };
 

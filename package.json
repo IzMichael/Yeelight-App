@@ -1,11 +1,11 @@
 {
   "name": "yeelight-app",
-  "version": "1.0.0",
+  "productName": "Yeelight App",
+  "version": "1.1.0",
   "description": "A simple app for controlling Yeelight bulbs",
   "main": "index.js",
   "scripts": {
-    "start": "electron .",
-    "package": "electron-packager ."
+    "start": "electron ."
   },
   "repository": "https://github.com/IzMichael/Yeelight-App",
   "author": "IzMichael",
@@ -15,6 +15,8 @@
     "electron-packager": "^15.2.0"
   },
   "dependencies": {
+    "electron-storage": "^1.0.7",
+    "markdown-it": "^12.0.4",
     "node-yeelight-wifi": "^0.1.4"
   }
 }
